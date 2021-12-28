@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: german-deck-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      backend-service: german-deck
+  template:
+    metadata:
+      labels:
+        backend-service: german-deck
+    spec:
+      containers:
+        - name: german-deck-service
+          image: montisero/german-deck-service:1
+          imagePullPolicy: Never
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: german-deck-service
+spec:
+  type: NodePort
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    backend-service: german-deck

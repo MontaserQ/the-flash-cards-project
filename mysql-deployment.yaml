@@ -1,0 +1,42 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: german-deck-mysql-service
+spec:
+  ports:
+    - port: 3306
+  selector:
+    app: german-deck-mysql
+  clusterIP: None
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: german-deck-mysql
+spec:
+  selector:
+    matchLabels:
+      app: german-deck-mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: german-deck-mysql
+    spec:
+      containers:
+        - image: mysql:5.6
+          name: german-deck-mysql
+          env:
+            - name: MYSQL_ROOT_PASSWORD
+              value: password
+          ports:
+            - containerPort: 3306
+              name: mysql
+          volumeMounts:
+            - name: mysql-persistent-storage
+              mountPath: /var/lib/mysql
+      volumes:
+        - name: mysql-persistent-storage
+          persistentVolumeClaim:
+            claimName: mysql-pv-claim
