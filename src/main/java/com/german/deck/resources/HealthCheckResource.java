@@ -17,4 +17,10 @@ public class HealthCheckResource {
         logger.info("Received ping message");
         return ResponseEntity.ok("pong");
     }
+
+    @RequestMapping("/")
+    public ResponseEntity<String> ping2(){
+    	logger.info("Received ping message from root path");
+	return ResponseEntity.ok("ping\n");
+    }
 }
