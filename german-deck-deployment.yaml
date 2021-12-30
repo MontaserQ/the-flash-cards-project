@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: german-deck-service
-          image: montisero/german-deck-service:1
+          image: montaserrqasem/german-deck-service:1
           imagePullPolicy: Never
 
 ---
